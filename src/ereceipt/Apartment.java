@@ -24,36 +24,36 @@ public class Apartment {
         return name.get();
     }
 
-    public StringProperty nameProperty() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name.set(name);
+    }
+
+    public StringProperty nameProperty() {
+        return name;
     }
 
     public String getAddress() {
         return address.get();
     }
 
-    public StringProperty addressProperty() {
-        return address;
-    }
-
     public void setAddress(String address) {
         this.address.set(address);
+    }
+
+    public StringProperty addressProperty() {
+        return address;
     }
 
     public int getId() {
         return id.get();
     }
 
-    public IntegerProperty idProperty() {
-        return id;
-    }
-
     public void setId(int id) {
         this.id.set(id);
+    }
+
+    public IntegerProperty idProperty() {
+        return id;
     }
 
     @Override
@@ -65,23 +65,23 @@ public class Apartment {
         return city.get();
     }
 
-    public StringProperty cityProperty() {
-        return city;
-    }
-
     public void setCity(String city) {
         this.city.set(city);
+    }
+
+    public StringProperty cityProperty() {
+        return city;
     }
 
     public String getFloor() {
         return floor.get();
     }
 
-    public StringProperty floorProperty() {
-        return floor;
-    }
-
     public void setFloor(String floor) {
         this.floor.set(floor);
+    }
+
+    public StringProperty floorProperty() {
+        return floor;
     }
 }

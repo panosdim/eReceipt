@@ -1,10 +1,9 @@
 package ereceipt;
 
 import javafx.beans.property.*;
-import java.text.Normalizer;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.regex.Pattern;
 
 public class Receipt {
     private final ObjectProperty<Lessee> lessee;
@@ -35,12 +34,6 @@ public class Receipt {
         this.address = new SimpleStringProperty(apartment.getAddress());
     }
 
-    private String upperCase(String str) {
-        String nfdNormalizedString = Normalizer.normalize(str.toUpperCase(), Normalizer.Form.NFD);
-        Pattern ptrn = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
-        return ptrn.matcher(nfdNormalizedString).replaceAll("");
-    }
-
     public final String getDate() {
         return date.get().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
     }
@@ -65,24 +58,24 @@ public class Receipt {
         return lessee.get();
     }
 
-    public ObjectProperty<Lessee> lesseeProperty() {
-        return lessee;
-    }
-
     public void setLessee(Lessee lessee) {
         this.lessee.set(lessee);
+    }
+
+    public ObjectProperty<Lessee> lesseeProperty() {
+        return lessee;
     }
 
     public Apartment getApartment() {
         return apartment.get();
     }
 
-    public ObjectProperty<Apartment> apartmentProperty() {
-        return apartment;
-    }
-
     public void setApartment(Apartment apartment) {
         this.apartment.set(apartment);
+    }
+
+    public ObjectProperty<Apartment> apartmentProperty() {
+        return apartment;
     }
 
     public final Double getAmount() {
@@ -149,11 +142,11 @@ public class Receipt {
         return address.get();
     }
 
-    public StringProperty addressProperty() {
-        return address;
-    }
-
     public void setAddress(String address) {
         this.address.set(address);
+    }
+
+    public StringProperty addressProperty() {
+        return address;
     }
 }

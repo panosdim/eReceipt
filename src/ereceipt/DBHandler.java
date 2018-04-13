@@ -16,7 +16,7 @@ class DBHandler {
 
     DBHandler() {
         try {
-            String dbURL = "jdbc:sqlite:ereceipt.db3";
+            String dbURL = "jdbc:sqlite::resource:ereceipt/ereceipt.db3";
             con = DriverManager.getConnection(dbURL);
         } catch (SQLException ex) {
             alert = new Alert(AlertType.ERROR);
@@ -370,11 +370,12 @@ class DBHandler {
     // Handle Backup and Restore of database
     //================================================================================
 
-    String backUpDatabase(String file) {
+    Void backUpDatabase(String file) {
+        System.out.println(file);
         try {
             //Store the SQL file
             Statement sta = con.createStatement();
-            if (!sta.execute("SCRIPT SIMPLE DROP TO '" + file + "'")) {
+            if (!sta.execute("backup to " + file)) {
                 System.out.println("Error in Backup");
             }
 
@@ -387,14 +388,14 @@ class DBHandler {
 
             alert.showAndWait();
         }
-        return "FINISHED";
+        return null;
     }
 
-    String restoreDatabase(String file) {
+    Void restoreDatabase(String file) {
         try {
             //Restore the SQL file
             Statement sta = con.createStatement();
-            sta.execute("RUNSCRIPT FROM '" + file + "'");
+            sta.execute("restore from " + file);
 
             sta.close();
         } catch (SQLException ex) {
@@ -405,6 +406,6 @@ class DBHandler {
 
             alert.showAndWait();
         }
-        return "FINISHED";
+        return null;
     }
 }

@@ -1,6 +1,7 @@
 package ereceipt;
 
 import javafx.beans.property.*;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -51,112 +52,116 @@ public class Lessee {
         return name.get();
     }
 
-    public StringProperty nameProperty() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name.set(name);
+    }
+
+    public StringProperty nameProperty() {
+        return name;
     }
 
     public String getAddress() {
         return address.get();
     }
 
-    public StringProperty addressProperty() {
-        return address;
-    }
-
     public void setAddress(String address) {
         this.address.set(address);
+    }
+
+    public StringProperty addressProperty() {
+        return address;
     }
 
     public String getCity() {
         return city.get();
     }
 
-    public StringProperty cityProperty() {
-        return city;
-    }
-
     public void setCity(String city) {
         this.city.set(city);
+    }
+
+    public StringProperty cityProperty() {
+        return city;
     }
 
     public String getPostalCode() {
         return postalCode.get();
     }
 
-    public StringProperty postalCodeProperty() {
-        return postalCode;
-    }
-
     public void setPostalCode(String postalCode) {
         this.postalCode.set(postalCode);
+    }
+
+    public StringProperty postalCodeProperty() {
+        return postalCode;
     }
 
     public String getMobile() {
         return mobile.get();
     }
 
-    public StringProperty mobileProperty() {
-        return mobile;
-    }
-
     public void setMobile(String mobile) {
         this.mobile.set(mobile);
+    }
+
+    public StringProperty mobileProperty() {
+        return mobile;
     }
 
     public String getHomeTelephone() {
         return homeTelephone.get();
     }
 
-    public StringProperty homeTelephoneProperty() {
-        return homeTelephone;
-    }
-
     public void setHomeTelephone(String homeTelephone) {
         this.homeTelephone.set(homeTelephone);
+    }
+
+    public StringProperty homeTelephoneProperty() {
+        return homeTelephone;
     }
 
     public String getWorkTelephone() {
         return workTelephone.get();
     }
 
-    public StringProperty workTelephoneProperty() {
-        return workTelephone;
-    }
-
     public void setWorkTelephone(String workTelephone) {
         this.workTelephone.set(workTelephone);
+    }
+
+    public StringProperty workTelephoneProperty() {
+        return workTelephone;
     }
 
     public String getEmail() {
         return email.get();
     }
 
-    public StringProperty emailProperty() {
-        return email;
-    }
-
     public void setEmail(String email) {
         this.email.set(email);
+    }
+
+    public StringProperty emailProperty() {
+        return email;
     }
 
     public Apartment getApartment() {
         return apartment.get();
     }
 
-    public ObjectProperty<Apartment> apartmentProperty() {
-        return apartment;
-    }
-
     public void setApartment(Apartment apartment) {
         this.apartment.set(apartment);
     }
 
+    public ObjectProperty<Apartment> apartmentProperty() {
+        return apartment;
+    }
+
     public LocalDate getContractFrom() {
         return contractFrom.get();
+    }
+
+    public void setContractFrom(LocalDate contractFrom) {
+        this.contractFrom.set(contractFrom);
     }
 
     public final String getContractFromSQL() {
@@ -167,12 +172,12 @@ public class Lessee {
         return contractFrom;
     }
 
-    public void setContractFrom(LocalDate contractFrom) {
-        this.contractFrom.set(contractFrom);
-    }
-
     public LocalDate getContractUntil() {
         return contractUntil.get();
+    }
+
+    public void setContractUntil(LocalDate contractUntil) {
+        this.contractUntil.set(contractUntil);
     }
 
     public final String getContractUntilSQL() {
@@ -183,32 +188,28 @@ public class Lessee {
         return contractUntil;
     }
 
-    public void setContractUntil(LocalDate contractUntil) {
-        this.contractUntil.set(contractUntil);
-    }
-
     public int getRent() {
         return rent.get();
-    }
-
-    public IntegerProperty rentProperty() {
-        return rent;
     }
 
     public void setRent(int rent) {
         this.rent.set(rent);
     }
 
+    public IntegerProperty rentProperty() {
+        return rent;
+    }
+
     public int getId() {
         return id.get();
     }
 
-    public IntegerProperty idProperty() {
-        return id;
-    }
-
     public void setId(int id) {
         this.id.set(id);
+    }
+
+    public IntegerProperty idProperty() {
+        return id;
     }
 
     @Override

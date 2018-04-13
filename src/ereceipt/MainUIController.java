@@ -29,12 +29,6 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 public class MainUIController {
-    private enum Type {
-        ERROR,
-        INFO,
-        SUCCESS
-    }
-
     private static final String EMAIL_REGEX = "^[\\w-+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-zA-Z]{2,6})$";
     private final ObservableList<Apartment> apartments = FXCollections.observableArrayList();
     private final ObservableList<Receipt> receipts = FXCollections.observableArrayList();
@@ -54,7 +48,6 @@ public class MainUIController {
             "2 Months",
             "1 Months"
     );
-    private ObservableList<String> years = FXCollections.observableArrayList();
     public TabPane mainPane;
     public TableColumn<Receipt, Integer> idColumn;
     public TableColumn<Receipt, Lessee> lesseeColumn;
@@ -93,6 +86,7 @@ public class MainUIController {
     public DatePicker lesseeContractUntil;
     public TextField lesseeRent;
     public ListView<Lessee> lstLessees;
+    private ObservableList<String> years = FXCollections.observableArrayList();
 
     public void initialize() {
         bar.setVisible(false);
@@ -145,7 +139,7 @@ public class MainUIController {
             }
         });
 
-        lstApartments.setCellFactory(new Callback<>() {
+        Callback<ListView<Apartment>, ListCell<Apartment>> apartmentCallback = new Callback<>() {
             @Override
             public ListCell<Apartment> call(ListView<Apartment> p) {
                 return new ListCell<>() {
@@ -160,42 +154,11 @@ public class MainUIController {
                     }
                 };
             }
-        });
+        };
 
-        cmbApartments.setCellFactory(new Callback<>() {
-            @Override
-            public ListCell<Apartment> call(ListView<Apartment> p) {
-                return new ListCell<>() {
-                    @Override
-                    protected void updateItem(Apartment t, boolean bln) {
-                        super.updateItem(t, bln);
-                        if (t != null) {
-                            setText(t.getName());
-                        } else {
-                            setText(null);
-                        }
-                    }
-                };
-            }
-        });
-
-        lesseeApartment.setCellFactory(new Callback<>() {
-            @Override
-            public ListCell<Apartment> call(ListView<Apartment> p) {
-                return new ListCell<>() {
-                    @Override
-                    protected void updateItem(Apartment t, boolean bln) {
-                        super.updateItem(t, bln);
-
-                        if (t != null) {
-                            setText(t.getName());
-                        } else {
-                            setText(null);
-                        }
-                    }
-                };
-            }
-        });
+        lstApartments.setCellFactory(apartmentCallback);
+        cmbApartments.setCellFactory(apartmentCallback);
+        lesseeApartment.setCellFactory(apartmentCallback);
 
         String pattern = "dd-MM-yyyy";
         date.setPromptText(pattern);
@@ -440,15 +403,11 @@ public class MainUIController {
         return months;
     }
 
-    //================================================================================
-    // UI Event Handlers
-    //================================================================================
-
     public void importDB() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Backup File");
         fileChooser.getExtensionFilters().addAll(
-                new ExtensionFilter("SQL Files", "*.sql"));
+                new ExtensionFilter("SQLite Files", "*.db"));
         File selectedFile
                 = fileChooser.showOpenDialog(status.getScene().getWindow());
         String backupFile;
@@ -462,9 +421,9 @@ public class MainUIController {
 
         showMessage("Restore of internal Database started.", Type.INFO);
 
-        Task task = new Task<String>() {
+        Task<Void> task = new Task<>() {
             @Override
-            public String call() {
+            public Void call() {
                 return db.restoreDatabase(backupFile);
             }
 
@@ -491,11 +450,15 @@ public class MainUIController {
         new Thread(task).start();
     }
 
+    //================================================================================
+    // UI Event Handlers
+    //================================================================================
+
     public void exportDB() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save Backup File");
         fileChooser.getExtensionFilters().addAll(
-                new ExtensionFilter("SQL Files", "*.sql"));
+                new ExtensionFilter("SQLite Files", "*.db"));
         File selectedFile
                 = fileChooser.showSaveDialog(status.getScene().getWindow());
         String backupFile;
@@ -509,9 +472,9 @@ public class MainUIController {
 
         showMessage("BackUp of internal Database started.", Type.INFO);
 
-        Task task = new Task<String>() {
+        Task<Void> task = new Task<>() {
             @Override
-            public String call() {
+            public Void call() {
                 return db.backUpDatabase(backupFile);
             }
 
@@ -673,16 +636,16 @@ public class MainUIController {
         }
         showMessage("Receipt generation started.", Type.INFO);
 
-        Task task = new Task<String>() {
+        Task<Void> task = new Task<>() {
             @Override
-            public String call() {
+            public Void call() {
                 try {
                     DocumentTemplateFactory documentTemplateFactory = new DocumentTemplateFactory();
                     DocumentTemplate template = documentTemplateFactory.getTemplate(new File(getClass().getResource("receipt.odt").getFile()));
                     HashMap<String, String> data = new HashMap<>();
                     data.put("NR", Integer.toString(receipt.getId()));
                     data.put("DATE", receipt.getDate());
-                    data.put("AMOUNT",String.format ("%.2f", (receipt.getAmount() * receipt.getMonths())));
+                    data.put("AMOUNT", String.format("%.2f", (receipt.getAmount() * receipt.getMonths())));
                     data.put("FLAT_ADDRESS", receipt.getApartment().getAddress());
                     data.put("FLAT_CITY", receipt.getApartment().getCity());
                     data.put("LESSEE_NAME", receipt.getLessee().getName());
@@ -699,7 +662,7 @@ public class MainUIController {
                     ex.printStackTrace();
                 }
 
-                return "FINISHED";
+                return null;
             }
 
             @Override
@@ -715,10 +678,6 @@ public class MainUIController {
         new Thread(task).start();
     }
 
-    //================================================================================
-    // UI related methods
-    //================================================================================
-
     private void clearApartment() {
         apartmentName.setText("");
         apartmentAddress.setText("");
@@ -728,6 +687,10 @@ public class MainUIController {
         btnDelete.setDisable(true);
         lstApartments.getSelectionModel().clearSelection();
     }
+
+    //================================================================================
+    // UI related methods
+    //================================================================================
 
     private void clearLessee() {
         lesseeName.setText("");
@@ -752,7 +715,7 @@ public class MainUIController {
         cmbLessee.setValue(null);
         amount.setText("");
         cbxMonths.setValue(period.get(0));
-        if (years.size() != 0 ) {
+        if (years.size() != 0) {
             cbxYear.setValue(years.get(0));
         }
         date.setValue(LocalDate.now());
@@ -1006,13 +969,13 @@ public class MainUIController {
         }
     }
 
-    //================================================================================
-    // Helper methods
-    //================================================================================
-
     public void selectText() {
         amount.selectAll();
     }
+
+    //================================================================================
+    // Helper methods
+    //================================================================================
 
     private String upperCase(String str) {
         String nfdNormalizedString = Normalizer.normalize(str.toUpperCase(), Normalizer.Form.NFD);
@@ -1042,5 +1005,11 @@ public class MainUIController {
                 event -> status.setText("")
         );
         visiblePause.play();
+    }
+
+    private enum Type {
+        ERROR,
+        INFO,
+        SUCCESS
     }
 }
