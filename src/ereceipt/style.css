@@ -1,0 +1,4 @@
+.required {
+    -fx-border-color: red;
+    -fx-border-radius: 3, 2, 4, 0;
+}

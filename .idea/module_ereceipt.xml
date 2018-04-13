@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_ereceipt" default="compile.module.ereceipt">
+  <dirname property="module.ereceipt.basedir" file="${ant.file.module_ereceipt}"/>
+  
+  <property name="module.jdk.home.ereceipt" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.ereceipt" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.ereceipt" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.ereceipt" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="ereceipt.output.dir" value="${module.ereceipt.basedir}/../target/production/eReceipt"/>
+  <property name="ereceipt.testoutput.dir" value="${module.ereceipt.basedir}/../target/test/eReceipt"/>
+  
+  <path id="ereceipt.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="ereceipt.module.production.classpath">
+    <path refid="${module.jdk.classpath.ereceipt}"/>
+    <fileset dir="${basedir}/libs">
+      <patternset refid="library.patterns"/>
+    </fileset>
+    <path refid="library.h2-1.4.192.classpath"/>
+    <path refid="library.hamcrest-core-1.3.classpath"/>
+    <path refid="library.junit-4.12.classpath"/>
+    <path refid="library.reportmill14.classpath"/>
+  </path>
+  
+  <path id="ereceipt.runtime.production.module.classpath">
+    <pathelement location="${ereceipt.output.dir}"/>
+    <fileset dir="${basedir}/libs">
+      <patternset refid="library.patterns"/>
+    </fileset>
+    <path refid="library.h2-1.4.192.classpath"/>
+    <path refid="library.hamcrest-core-1.3.classpath"/>
+    <path refid="library.junit-4.12.classpath"/>
+    <path refid="library.reportmill14.classpath"/>
+  </path>
+  
+  <path id="ereceipt.module.classpath">
+    <path refid="${module.jdk.classpath.ereceipt}"/>
+    <pathelement location="${ereceipt.output.dir}"/>
+    <fileset dir="${basedir}/libs">
+      <patternset refid="library.patterns"/>
+    </fileset>
+    <path refid="library.h2-1.4.192.classpath"/>
+    <path refid="library.hamcrest-core-1.3.classpath"/>
+    <path refid="library.junit-4.12.classpath"/>
+    <path refid="library.reportmill14.classpath"/>
+  </path>
+  
+  <path id="ereceipt.runtime.module.classpath">
+    <pathelement location="${ereceipt.testoutput.dir}"/>
+    <pathelement location="${ereceipt.output.dir}"/>
+    <fileset dir="${basedir}/libs">
+      <patternset refid="library.patterns"/>
+    </fileset>
+    <path refid="library.h2-1.4.192.classpath"/>
+    <path refid="library.hamcrest-core-1.3.classpath"/>
+    <path refid="library.junit-4.12.classpath"/>
+    <path refid="library.reportmill14.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.ereceipt">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.ereceipt">
+    <patternset refid="excluded.from.module.ereceipt"/>
+  </patternset>
+  
+  <path id="ereceipt.module.sourcepath">
+    <dirset dir="${module.ereceipt.basedir}/../../eReceipt">
+      <include name="src"/>
+      <include name="resources"/>
+    </dirset>
+  </path>
+  
+  <path id="ereceipt.module.test.sourcepath">
+    <dirset dir="${module.ereceipt.basedir}/../../eReceipt">
+      <include name="test"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.ereceipt" depends="compile.module.ereceipt.production,compile.module.ereceipt.tests" description="Compile module eReceipt"/>
+  
+  <target name="compile.module.ereceipt.production" depends="register.custom.compilers" description="Compile module eReceipt; production classes">
+    <mkdir dir="${ereceipt.output.dir}"/>
+    <javac2 destdir="${ereceipt.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.ereceipt}/javac">
+      <compilerarg line="${compiler.args.ereceipt}"/>
+      <bootclasspath refid="ereceipt.module.bootclasspath"/>
+      <classpath refid="ereceipt.module.production.classpath"/>
+      <src refid="ereceipt.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.ereceipt"/>
+    </javac2>
+    
+    <copy todir="${ereceipt.output.dir}">
+      <fileset dir="${module.ereceipt.basedir}/../src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.ereceipt.basedir}/../resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.ereceipt.tests" depends="register.custom.compilers,compile.module.ereceipt.production" description="compile module eReceipt; test classes" unless="skip.tests">
+    <mkdir dir="${ereceipt.testoutput.dir}"/>
+    <javac2 destdir="${ereceipt.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.ereceipt}/javac">
+      <compilerarg line="${compiler.args.ereceipt}"/>
+      <bootclasspath refid="ereceipt.module.bootclasspath"/>
+      <classpath refid="ereceipt.module.classpath"/>
+      <src refid="ereceipt.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.ereceipt"/>
+    </javac2>
+    
+    <copy todir="${ereceipt.testoutput.dir}">
+      <fileset dir="${module.ereceipt.basedir}/../test">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.ereceipt" description="cleanup module">
+    <delete dir="${ereceipt.output.dir}"/>
+    <delete dir="${ereceipt.testoutput.dir}"/>
+  </target>
+</project>
