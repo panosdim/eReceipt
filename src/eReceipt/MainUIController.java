@@ -1,4 +1,4 @@
-package ereceipt;
+package eReceipt;
 
 import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
@@ -641,7 +641,7 @@ public class MainUIController {
             public Void call() {
                 try {
                     DocumentTemplateFactory documentTemplateFactory = new DocumentTemplateFactory();
-                    DocumentTemplate template = documentTemplateFactory.getTemplate(new File(getClass().getResource("receipt.odt").getFile()));
+                    DocumentTemplate template = documentTemplateFactory.getTemplate(new File(getClass().getResource("/receipt.odt").getFile()));
                     HashMap<String, String> data = new HashMap<>();
                     data.put("NR", Integer.toString(receipt.getId()));
                     data.put("DATE", receipt.getDate());

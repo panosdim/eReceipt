@@ -1,4 +1,4 @@
-package ereceipt;
+package eReceipt;
 
 import javafx.beans.property.*;
 

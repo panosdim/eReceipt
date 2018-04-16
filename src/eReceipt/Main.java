@@ -1,4 +1,4 @@
-package ereceipt;
+package eReceipt;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -18,13 +18,14 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("MainUI.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/MainUI.fxml"));
 
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
+        // Edit .idea/artifacts/eReceipt.xml in order to set icon for native bundle.
         stage.setScene(scene);
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("eReceipt.png")));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/eReceipt.png")));
         stage.setTitle("eReceipt");
         stage.setResizable(false);
         stage.show();

@@ -3,9 +3,15 @@
     <output-path>$PROJECT_DIR$/target/artifacts/eReceipt</output-path>
     <properties id="javafx-properties">
       <options>
-        <option name="appClass" value="ereceipt.Main" />
-        <option name="description" value="Generate receipts for your rented appartments." />
+        <option name="appClass" value="eReceipt.Main" />
+        <option name="description" value="Generate receipts for your rented apartments." />
         <option name="htmlPlaceholderId" value="" />
+        <option name="icons">
+          <JavaFxApplicationIcons>
+            <option name="linuxIcon" value="$PROJECT_DIR$/resources/eReceipt.png" />
+            <option name="windowsIcon" value="$PROJECT_DIR$/resources/eReceipt.ico" />
+          </JavaFxApplicationIcons>
+        </option>
         <option name="nativeBundle" value="all" />
         <option name="title" value="eReceipt" />
         <option name="vendor" value="Panagiotis Dimopoulos" />

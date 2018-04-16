@@ -1,4 +1,4 @@
-package ereceipt;
+package eReceipt;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,7 +16,7 @@ class DBHandler {
 
     DBHandler() {
         try {
-            String dbURL = "jdbc:sqlite::resource:ereceipt/ereceipt.db3";
+            String dbURL = "jdbc:sqlite::resource:eReceipt/eReceipt.db3";
             con = DriverManager.getConnection(dbURL);
         } catch (SQLException ex) {
             alert = new Alert(AlertType.ERROR);
