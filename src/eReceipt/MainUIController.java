@@ -18,6 +18,7 @@ import net.sf.jooreports.templates.DocumentTemplateFactory;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.text.Normalizer;
 import java.time.LocalDate;
 import java.time.Month;
@@ -641,7 +642,7 @@ public class MainUIController {
             public Void call() {
                 try {
                     DocumentTemplateFactory documentTemplateFactory = new DocumentTemplateFactory();
-                    DocumentTemplate template = documentTemplateFactory.getTemplate(new File(getClass().getResource("/receipt.odt").getFile()));
+                    DocumentTemplate template = documentTemplateFactory.getTemplate(getClass().getResourceAsStream("/receipt.odt"));
                     HashMap<String, String> data = new HashMap<>();
                     data.put("NR", Integer.toString(receipt.getId()));
                     data.put("DATE", receipt.getDate());
